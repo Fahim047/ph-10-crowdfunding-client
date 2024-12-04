@@ -4,33 +4,35 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks';
 
 const Navbar = () => {
-	const { user } = useAuth();
-	const logout = () => {};
+	const { user, handleLogout } = useAuth();
+
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const logout = async () => {
+		await handleLogout();
+		alert('Logout Successful');
+	};
 
 	return (
-		<nav className="bg-indigo-50 shadow-lg">
+		<nav className="bg-indigo-100 shadow-lg">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="flex items-center justify-between h-16">
-					<div className="flex items-center">
-						<Link
-							to="/"
-							className="flex-shrink-0 text-2xl font-bold text-indigo-700"
-						>
-							CROWDCUBE
-						</Link>
-						<div className="hidden md:block">
-							<div className="ml-10 flex items-baseline space-x-4">
-								<Link to="/">Home</Link>
-								<Link to="/campaigns">All Campaigns</Link>
-								{user && (
-									<>
-										<Link to="/campaigns/new">Add New Campaign</Link>
-										<Link to="/my-campaigns">My Campaigns</Link>
-										<Link to="/my-donations">My Donations</Link>
-									</>
-								)}
-							</div>
+				<div className="flex items-center justify-between py-4">
+					<Link
+						to="/"
+						className="flex-shrink-0 text-2xl font-bold text-indigo-700"
+					>
+						CROWDCUBE
+					</Link>
+					<div className="hidden md:block">
+						<div className="ml-10 flex items-center space-x-8">
+							<Link to="/">Home</Link>
+							<Link to="/campaigns">All Campaigns</Link>
+							{user && (
+								<>
+									<Link to="/campaigns/new">Add New Campaign</Link>
+									<Link to="/my-campaigns">My Campaigns</Link>
+									<Link to="/my-donations">My Donations</Link>
+								</>
+							)}
 						</div>
 					</div>
 					<div className="hidden md:block">

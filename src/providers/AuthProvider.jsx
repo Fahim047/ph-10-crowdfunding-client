@@ -1,4 +1,4 @@
-import { onAuthStateChanged, signInWithPopup } from 'firebase/auth';
+import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 import { useEffect, useMemo, useState } from 'react';
 import { AuthContext } from '../contexts';
 import auth, { googleProvider } from '../firebase/firebase.config';
@@ -10,9 +10,12 @@ const AuthProvider = ({ children }) => {
 	const handleSignInWithGoogle = async () => {
 		return signInWithPopup(auth, googleProvider);
 	};
+	const handleLogout = () => {
+		return signOut(auth);
+	};
 
 	const authInfo = useMemo(
-		() => ({ user, setUser, loading, handleSignInWithGoogle }),
+		() => ({ user, setUser, loading, handleSignInWithGoogle, handleLogout }),
 		[user, loading]
 	);
 
