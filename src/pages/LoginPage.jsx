@@ -1,6 +1,7 @@
 import { Chrome } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useAuth } from '../hooks';
 
 const LoginPage = () => {
@@ -40,6 +41,8 @@ const LoginPage = () => {
 		setIsLoading(true);
 		try {
 			await handleSignInWithGoogle();
+			toast.success('Logged in successfully!');
+			navigate('/');
 		} catch (err) {
 			setError('Failed to login. Please try again.');
 			console.log(err);

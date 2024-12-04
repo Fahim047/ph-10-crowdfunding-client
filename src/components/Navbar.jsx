@@ -1,6 +1,7 @@
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useAuth } from '../hooks';
 
 const Navbar = () => {
@@ -9,7 +10,7 @@ const Navbar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const logout = async () => {
 		await handleLogout();
-		alert('Logout Successful');
+		toast.success('Logged out successfully.');
 	};
 
 	return (
@@ -50,7 +51,10 @@ const Navbar = () => {
 										<span className="absolute bottom-0 right-0 block h-2 w-2 rounded-full bg-green-400 ring-2 ring-white"></span>
 									</div>
 									<div className="ml-3">
-										<button onClick={logout} className="btn btn-ghost">
+										<button
+											onClick={logout}
+											className="min-w-24 btn btn-outline border-indigo-700 hover:btn-error"
+										>
 											Log out
 										</button>
 									</div>
@@ -122,7 +126,10 @@ const Navbar = () => {
 										{user.email}
 									</div>
 								</div>
-								<button onClick={logout} className="ml-auto btn btn-ghost">
+								<button
+									onClick={logout}
+									className="min-w-24 ml-auto btn btn-ghost"
+								>
 									Log out
 								</button>
 							</div>
