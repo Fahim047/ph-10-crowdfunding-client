@@ -1,5 +1,10 @@
+import ActiveCampaigns from '../components/ActiveCampaigns';
 const Homepage = () => {
-	return <div className="text-3xl text-primary">Homepage</div>;
+	return (
+		<>
+			<ActiveCampaigns />
+		</>
+	);
 };
 
 export default Homepage;
