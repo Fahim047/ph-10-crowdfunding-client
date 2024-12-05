@@ -93,7 +93,7 @@ const Navbar = () => {
 
 			{isMenuOpen && (
 				<div className="md:hidden">
-					<div className="flex flex-col gap-4 px-2 pt-2 pb-3 sm:px-3">
+					<div className="flex flex-col items-center gap-4 px-2 pt-2 pb-3 sm:px-3">
 						<Link to="/">Home</Link>
 						<Link to="/campaigns">All Campaigns</Link>
 						{user && (
@@ -129,19 +129,19 @@ const Navbar = () => {
 								</div>
 								<button
 									onClick={logout}
-									className="min-w-24 ml-auto btn btn-ghost"
+									className="min-w-24 btn btn-outline border-indigo-700 hover:btn-error"
 								>
 									Log out
 								</button>
 							</div>
 						) : (
 							<div className="mt-3 px-2 space-y-1">
-								<a to="/login" className="block btn btn-primary w-full">
+								<Link to="/login" className="block btn btn-primary w-full">
 									Log in
-								</a>
-								<a to="/register" className="block btn btn-secondary w-full">
+								</Link>
+								<Link to="/register" className="block btn btn-secondary w-full">
 									Register
-								</a>
+								</Link>
 							</div>
 						)}
 					</div>

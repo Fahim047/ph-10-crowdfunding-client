@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import AddCampaign from '../components/AddCampaign';
 import MainLayout from '../layouts/MainLayout';
 import Homepage from '../pages/Homepage';
 import LoginPage from '../pages/LoginPage';
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
 			{
 				index: true,
 				element: <Homepage />,
+			},
+			{
+				path: '/addcampaign',
+				element: <AddCampaign />,
 			},
 			{
 				path: '/login',
