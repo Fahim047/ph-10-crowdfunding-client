@@ -8,6 +8,7 @@ const Navbar = () => {
 	const { user, handleLogout } = useAuth();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const navigate = useNavigate();
+	console.log(user?.photoURL);
 	const logout = async () => {
 		await handleLogout();
 		navigate('/');
@@ -30,7 +31,7 @@ const Navbar = () => {
 							<Link to="/campaigns">All Campaigns</Link>
 							{user && (
 								<>
-									<Link to="/campaigns/new">Add New Campaign</Link>
+									<Link to="/add-campaign">Add New Campaign</Link>
 									<Link to="/my-campaigns">My Campaigns</Link>
 									<Link to="/my-donations">My Donations</Link>
 								</>
@@ -43,7 +44,7 @@ const Navbar = () => {
 								<div className="flex items-center">
 									<div className="relative">
 										<img
-											src={user.photoURL || 'https://i.pravatar.cc/150'}
+											src={user?.photoURL || 'https://i.pravatar.cc/150'}
 											alt="User avatar"
 											width={32}
 											height={32}
@@ -98,7 +99,7 @@ const Navbar = () => {
 						<Link to="/campaigns">All Campaigns</Link>
 						{user && (
 							<>
-								<Link to="/campaigns/new">Add New Campaign</Link>
+								<Link to="/add-campaign">Add New Campaign</Link>
 								<Link to="/my-campaigns">My Campaigns</Link>
 								<Link to="/my-donations">My Donations</Link>
 							</>
@@ -110,7 +111,7 @@ const Navbar = () => {
 								<div className="flex-shrink-0">
 									<img
 										src={
-											user.photoURL ||
+											user?.photoURL ||
 											'https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp'
 										}
 										alt="User avatar"
@@ -121,10 +122,10 @@ const Navbar = () => {
 								</div>
 								<div className="ml-3">
 									<div className="text-base font-medium leading-none text-indigo-700">
-										{user.displayName}
+										{user?.displayName}
 									</div>
 									<div className="text-sm font-medium leading-none text-gray-400">
-										{user.email}
+										{user?.email}
 									</div>
 								</div>
 								<button

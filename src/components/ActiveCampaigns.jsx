@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
 import KidsImage from '../assets/kids.png';
 const ActiveCampaigns = () => {
+	const id = 1;
 	return (
 		<section className="max-w-7xl mx-auto px-4">
 			<h2 className="text-4xl font-bold mb-12">Active Campaigns</h2>
@@ -37,6 +39,14 @@ const ActiveCampaigns = () => {
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam,
 						similique.
 					</p>
+					<div className="text-end">
+						<Link
+							to={`/campaigns/${id}`}
+							className="text-gray-500 hover:text-indigo-700 underline"
+						>
+							See more...
+						</Link>
+					</div>
 				</div>
 			</div>
 		</section>
