@@ -6,7 +6,7 @@ const mockCampaign = {
 	imageUrl: 'https://via.placeholder.com/600x400',
 	title: 'Help Build a School',
 	type: 'Personal Issue',
-	message:
+	description:
 		'We are raising funds to build a school in a remote area to provide education for underprivileged children.',
 	minDonation: 10,
 	deadline: '2024-12-31',
@@ -35,7 +35,7 @@ const CampaignDetailsPage = () => {
 		imageUrl,
 		title,
 		type,
-		message,
+		description,
 		minDonation,
 		deadline,
 		currentDonation,
@@ -83,7 +83,7 @@ const CampaignDetailsPage = () => {
 						Deadline: {new Date(deadline).toLocaleDateString()}
 					</p>
 				</div>
-				<p className="text-gray-700 mb-6">{message}</p>
+				<p className="text-gray-700 mb-6">{description}</p>
 				{/* Author Info */}
 				<div className="flex items-center mb-6">
 					<img
@@ -97,19 +97,19 @@ const CampaignDetailsPage = () => {
 					</div>
 				</div>
 				{/* Donation Section */}
-				<div className="p-4 bg-gray-100 rounded-lg">
-					<div className="w-full">
+				<div className="p-6 bg-gray-100 rounded-lg">
+					<div className="max-w-md mx-auto">
 						<InputField
 							label={`Donation Amount(Minimum $${minDonation})`}
 							type="number"
 							name="amount"
-							value={formData.minDonation}
+							value={100}
 							onChange={handleInputChange}
 							placeholder="Enter your donation amount"
 							required
 						/>
 						<TextareaField
-							label="message"
+							label="Message(optional)"
 							name="message"
 							value={formData.message}
 							onChange={handleInputChange}
@@ -119,7 +119,7 @@ const CampaignDetailsPage = () => {
 
 						<button
 							onClick={handleDonate}
-							className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+							className="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
 						>
 							Donate
 						</button>

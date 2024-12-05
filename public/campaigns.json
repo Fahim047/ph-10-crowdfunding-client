@@ -1,0 +1,26 @@
+[
+	{
+		"id": "1",
+		"title": "Help Build a School",
+		"type": "Personal Issue",
+		"currentDonation": 2500,
+		"targetDonation": 5000,
+		"deadline": "2024-12-31",
+		"createdBy": {
+			"name": "John Doe",
+			"email": "john.doe@example.com"
+		}
+	},
+	{
+		"id": "2",
+		"title": "Startup Funding",
+		"type": "Business",
+		"currentDonation": 8000,
+		"targetDonation": 20000,
+		"deadline": "2024-12-15",
+		"createdBy": {
+			"name": "Jane Smith",
+			"email": "jane.smith@example.com"
+		}
+	}
+]

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import AddCampaign from '../components/AddCampaign';
 import MainLayout from '../layouts/MainLayout';
+import AllCampaignsPage from '../pages/AllCampaignsPage';
 import CampaignDetailsPage from '../pages/CampaignDetailsPage';
 import Homepage from '../pages/Homepage';
 import LoginPage from '../pages/LoginPage';
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
 				element: <Homepage />,
 			},
 			{
+				path: '/campaigns',
+				element: <AllCampaignsPage />,
+			},
+			{
 				path: '/campaigns/:id',
 				element: (
 					<PrivateRoutes>
@@ -27,7 +32,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/add-campaign',
-				element: <AddCampaign />,
+				element: (
+					<PrivateRoutes>
+						<AddCampaign />,
+					</PrivateRoutes>
+				),
 			},
 			{
 				path: '/login',
