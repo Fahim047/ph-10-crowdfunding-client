@@ -27,46 +27,28 @@ const AllCampaignsPage = () => {
 			<div className="overflow-x-auto">
 				<table className="min-w-full table-fixed border-collapse border border-gray-200">
 					<thead>
-						<tr className="bg-gray-100">
-							<th className="border border-gray-200 px-4 py-2 text-left">#</th>
-							<th className="border border-gray-200 px-4 py-2 text-left">
-								Title
-							</th>
-							<th className="border border-gray-200 px-4 py-2 text-left">
-								Type
-							</th>
-							<th className="border border-gray-200 px-4 py-2 text-left">
-								Raised / Target
-							</th>
-							<th className="border border-gray-200 px-4 py-2 text-left">
-								Deadline
-							</th>
-							<th className="border border-gray-200 px-4 py-2 text-center">
-								Actions
-							</th>
+						<tr className="bg-gray-100 *:border *:border-gray-200 *:px-4 *:py-2 *:text-left">
+							<th>#</th>
+							<th>Title</th>
+							<th>Type</th>
+							<th>Raised / Target</th>
+							<th>Deadline</th>
+							<th className="!text-center">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						{campaigns.map((campaign, index) => (
 							<tr
 								key={campaign.id}
-								className="hover:bg-gray-50 transition-colors"
+								className="hover:bg-gray-50 transition-colors *:border *:border-gray-200 *:px-4 *:py-2"
 							>
-								<td className="border border-gray-200 px-4 py-2">
-									{index + 1}
-								</td>
-								<td className="border border-gray-200 px-4 py-2">
-									{campaign.title}
-								</td>
-								<td className="border border-gray-200 px-4 py-2">
-									{campaign.type}
-								</td>
-								<td className="border border-gray-200 px-4 py-2">
+								<td>{index + 1}</td>
+								<td>{campaign.title}</td>
+								<td>{campaign.type}</td>
+								<td>
 									${campaign.currentDonation} / ${campaign.targetDonation}
 								</td>
-								<td className="border border-gray-200 px-4 py-2">
-									{new Date(campaign.deadline).toLocaleDateString()}
-								</td>
+								<td>{new Date(campaign.deadline).toLocaleDateString()}</td>
 								<td className="border border-gray-200 px-4 py-2 text-center">
 									<button
 										onClick={() => navigate(`/campaigns/${campaign.id}`)}
