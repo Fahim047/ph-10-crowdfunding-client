@@ -1,24 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import Loader from '../components/Loader';
 const AllCampaignsPage = () => {
 	const [campaigns, setCampaigns] = useState([]);
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
-
 	useEffect(() => {
 		const fetchCampaigns = async () => {
+			setLoading(true);
 			try {
-				const response = await fetch('campaigns.json');
+				const response = await fetch('http://localhost:8000/api/v1/campaigns');
 				const data = await response.json();
-				setCampaigns(data);
+				setCampaigns(data.data);
 			} catch (error) {
 				console.error('Error fetching campaigns:', error);
+			} finally {
+				setLoading(false);
 			}
 		};
 
 		fetchCampaigns();
 	}, []);
-
+	if (loading) {
+		return <Loader />;
+	}
 	return (
 		<div className="max-w-7xl mx-auto p-6">
 			<h1 className="text-3xl font-bold mb-6">All Campaigns</h1>

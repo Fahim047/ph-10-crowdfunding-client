@@ -6,11 +6,12 @@ import TextareaField from './Forms/TextAreaField';
 const AddCampaign = () => {
 	const { user } = useAuth();
 	const [formData, setFormData] = useState({
-		imageUrl: '',
+		imageURL: '',
 		title: '',
 		type: 'personal issue',
 		description: '',
-		minDonation: '',
+		minDonation: 10,
+		targetAmount: 100,
 		deadline: '',
 	});
 
@@ -22,13 +23,31 @@ const AddCampaign = () => {
 		});
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log('Campaign data:', {
+		if (!user?.email || !user?.displayName) return;
+
+		const newCampaign = {
 			...formData,
-			userName: user.displayName,
-			userEmail: user.email,
+			minDonation: Number(formData.minDonation),
+			author: {
+				name: user?.displayName,
+				email: user?.email,
+				photoURL: user?.photoURL,
+			},
+		};
+		const response = await fetch('http://localhost:8000/api/v1/campaigns', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(newCampaign),
 		});
+		console.log(response);
+		const data = await response.json();
+		if (response.ok) {
+			console.log('New Campaign created successfully. Data: ', data);
+		}
 	};
 
 	return (
@@ -38,8 +57,8 @@ const AddCampaign = () => {
 				<InputField
 					label="Image URL"
 					type="url"
-					name="imageUrl"
-					value={formData.imageUrl}
+					name="imageURL"
+					value={formData.imageURL}
 					onChange={handleInputChange}
 					placeholder="Enter image URL"
 					required
@@ -76,10 +95,21 @@ const AddCampaign = () => {
 				<InputField
 					label="Minimum Donation Amount ($)"
 					type="number"
+					min="10"
 					name="minDonation"
 					value={formData.minDonation}
 					onChange={handleInputChange}
 					placeholder="Enter minimum donation amount"
+					required
+				/>
+				<InputField
+					label="Target Amount ($)"
+					type="number"
+					name="targetAmount"
+					min="100"
+					value={formData.targetAmount}
+					onChange={handleInputChange}
+					placeholder="Enter target amount"
 					required
 				/>
 				<InputField
@@ -94,14 +124,14 @@ const AddCampaign = () => {
 					label="User Email"
 					type="email"
 					name="userEmail"
-					value={user.email}
+					value={user?.email}
 					readOnly
 				/>
 				<InputField
 					label="User Name"
 					type="text"
 					name="userName"
-					value={user.displayName}
+					value={user?.displayName}
 					readOnly
 				/>
 				<div>
