@@ -51,7 +51,7 @@ const AllCampaignsPage = () => {
 								<td>{campaign.title}</td>
 								<td>{campaign.type}</td>
 								<td>
-									${campaign.currentDonation} / ${campaign.targetDonation}
+									${campaign.currentAmount} / ${campaign.targetAmount}
 								</td>
 								<td>{new Date(campaign.deadline).toLocaleDateString()}</td>
 								<td className="border border-gray-200 px-4 py-2 text-center">
