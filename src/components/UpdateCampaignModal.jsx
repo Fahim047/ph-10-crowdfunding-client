@@ -17,7 +17,10 @@ const UpdateCampaignModal = ({
 
 	useEffect(() => {
 		if (existingData) {
-			setFormData(existingData);
+			const formattedDeadline = new Date(existingData.deadline)
+				.toISOString()
+				.split('T')[0];
+			setFormData({ ...existingData, deadline: formattedDeadline });
 		}
 	}, [existingData]);
 
@@ -112,6 +115,15 @@ const UpdateCampaignModal = ({
 						value={formData.minDonation}
 						onChange={handleInputChange}
 						placeholder="Enter minimum donation amount"
+						required
+					/>
+					<InputField
+						label="Target Amount ($)"
+						type="number"
+						name="targetAmount"
+						value={formData.targetAmount}
+						onChange={handleInputChange}
+						placeholder="Enter target amount"
 						required
 					/>
 					<InputField

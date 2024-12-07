@@ -130,7 +130,6 @@ const MyCampaignsPage = () => {
 					onClose={handleCloseModal}
 					campaignId={selectedCampaign._id}
 					existingData={selectedCampaign}
-					refreshCampaigns={refreshCampaigns}
 					setCampaigns={setCampaigns}
 				/>
 			)}

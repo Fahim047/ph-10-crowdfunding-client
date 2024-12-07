@@ -4,8 +4,10 @@ import { toast } from 'react-toastify';
 import InputField from '../components/Forms/InputField';
 import TextareaField from '../components/Forms/TextAreaField';
 import Loader from '../components/Loader';
+import { useAuth } from '../hooks';
 
 const CampaignDetailsPage = () => {
+	const { user } = useAuth();
 	const { campaignId } = useParams();
 	const [campaign, setCampaign] = useState({});
 	const [loading, setLoading] = useState(false);
@@ -22,7 +24,6 @@ const CampaignDetailsPage = () => {
 					`http://localhost:8000/api/v1/campaigns/${campaignId}`
 				);
 				const data = await response.json();
-				console.log(data);
 				setCampaign(data.data);
 			} catch (err) {
 				console.log(err);
@@ -52,9 +53,58 @@ const CampaignDetailsPage = () => {
 		targetAmount,
 		author,
 	} = campaign;
-	const handleDonate = () => {
-		alert('Thanks for donating!');
+	const handleDonate = async () => {
+		if (!user) return toast.error('You must be logged in to donate.');
+		if (!formData.amount || formData.amount < minDonation) {
+			toast.error(`Please enter an amount of at least $${minDonation}.`);
+			return;
+		}
+		try {
+			const donationData = {
+				campaignId,
+				amount: parseInt(formData.amount),
+				message: formData.message,
+				donor: {
+					name: user?.displayName,
+					email: user?.email,
+					photoURL: user?.photoURL,
+				},
+			};
+
+			const response = await fetch('http://localhost:8000/api/v1/donations', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(donationData),
+			});
+
+			if (response.ok) {
+				const result = await response.json();
+				console.log(result);
+				toast.success('Donation successful!');
+
+				// Update the campaign's current amount
+				setCampaign((prevCampaign) => ({
+					...prevCampaign,
+					currentAmount:
+						prevCampaign.currentAmount + parseFloat(formData.amount),
+				}));
+
+				setFormData({
+					amount: '',
+					message: '',
+				});
+			} else {
+				const error = await response.json();
+				toast.error(error.message || 'Failed to process donation.');
+			}
+		} catch (error) {
+			console.error('Error during donation:', error);
+			toast.error('An error occurred. Please try again.');
+		}
 	};
+
 	const donationProgress = Math.min((currentAmount / targetAmount) * 100, 100);
 
 	if (loading) return <Loader />;
@@ -113,7 +163,7 @@ const CampaignDetailsPage = () => {
 							label={`Donation Amount(Minimum $${minDonation})`}
 							type="number"
 							name="amount"
-							value={100}
+							value={formData.amount}
 							onChange={handleInputChange}
 							placeholder="Enter your donation amount"
 							required
