@@ -52,7 +52,7 @@ const MyDonationsPage = () => {
 	}, [user?.email]);
 	if (loading) return <Loader />;
 	return (
-		<div className="min-h-screen p-8">
+		<div className="max-w-7xl mx-auto min-h-screen p-8">
 			<h1 className="text-4xl font-extrabold text-center text-gray-800 mb-10">
 				My Donations
 			</h1>

@@ -4,7 +4,18 @@ import Loader from '../components/Loader';
 const AllCampaignsPage = () => {
 	const [campaigns, setCampaigns] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [isAscending, setIsAscending] = useState(true);
 	const navigate = useNavigate();
+
+	const handleSort = () => {
+		const sortedCampaigns = campaigns.toSorted((a, b) => {
+			return isAscending
+				? a.minDonation - b.minDonation
+				: b.minDonation - a.minDonation;
+		});
+		setCampaigns(sortedCampaigns);
+		setIsAscending(!isAscending);
+	};
 	useEffect(() => {
 		const fetchCampaigns = async () => {
 			setLoading(true);
@@ -27,7 +38,14 @@ const AllCampaignsPage = () => {
 	return (
 		<div className="max-w-7xl mx-auto p-6">
 			<h1 className="text-3xl font-bold mb-6">All Campaigns</h1>
-
+			<div className="flex justify-between items-center mb-6">
+				<button
+					onClick={handleSort}
+					className="bg-indigo-400 text-white py-2 px-4 rounded hover:bg-indigo-600 transition"
+				>
+					Sort by Minimum Donation ({isAscending ? 'Ascending' : 'Descending'})
+				</button>
+			</div>
 			{/* Table of Campaigns */}
 			<div className="overflow-x-auto">
 				<table className="min-w-full table-fixed border-collapse border border-gray-200">
@@ -36,6 +54,7 @@ const AllCampaignsPage = () => {
 							<th>#</th>
 							<th>Title</th>
 							<th>Type</th>
+							<th>Min Donation</th>
 							<th>Raised / Target</th>
 							<th>Deadline</th>
 							<th className="!text-center">Actions</th>
@@ -50,6 +69,7 @@ const AllCampaignsPage = () => {
 								<td>{index + 1}</td>
 								<td>{campaign.title}</td>
 								<td>{campaign.type}</td>
+								<td>${campaign.minDonation}</td>
 								<td>
 									${campaign.currentAmount} / ${campaign.targetAmount}
 								</td>
