@@ -1,28 +1,38 @@
-import { useState } from 'react';
-import KidsImage from '../assets/kids.png';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import InputField from '../components/Forms/InputField';
 import TextareaField from '../components/Forms/TextAreaField';
-const mockCampaign = {
-	imageUrl: 'https://via.placeholder.com/600x400',
-	title: 'Help Build a School',
-	type: 'Personal Issue',
-	description:
-		'We are raising funds to build a school in a remote area to provide education for underprivileged children.',
-	minDonation: 10,
-	deadline: '2024-12-31',
-	currentDonation: 2500,
-	targetDonation: 5000,
-	author: {
-		name: 'John Doe',
-		email: 'john.doe@example.com',
-		photoURL: 'https://via.placeholder.com/50',
-	},
-};
+import Loader from '../components/Loader';
+
 const CampaignDetailsPage = () => {
+	const { campaignId } = useParams();
+	const [campaign, setCampaign] = useState({});
+	const [loading, setLoading] = useState(false);
 	const [formData, setFormData] = useState({
 		amount: '',
 		message: '',
 	});
+
+	useEffect(() => {
+		const fetchCampaign = async () => {
+			setLoading(true);
+			try {
+				const response = await fetch(
+					`http://localhost:8000/api/v1/campaigns/${campaignId}`
+				);
+				const data = await response.json();
+				console.log(data);
+				setCampaign(data.data);
+			} catch (err) {
+				console.log(err);
+				toast.error('Failed to fetch campaign');
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchCampaign();
+	}, [campaignId]);
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -32,29 +42,29 @@ const CampaignDetailsPage = () => {
 		});
 	};
 	const {
-		imageUrl,
+		imageURL,
 		title,
 		type,
 		description,
 		minDonation,
 		deadline,
-		currentDonation,
-		target,
+		currentAmount,
+		targetAmount,
 		author,
-	} = mockCampaign;
+	} = campaign;
 	const handleDonate = () => {
 		alert('Thanks for donating!');
 	};
+	const donationProgress = Math.min((currentAmount / targetAmount) * 100, 100);
 
-	const donationProgress = Math.min((currentDonation / target) * 100, 100);
-
+	if (loading) return <Loader />;
 	return (
 		<section className="max-w-4xl mx-auto px-4">
 			<div className="p-6 bg-white shadow-md rounded-lg">
 				{/* Campaign Image */}
 				<div className="w-full h-72 overflow-hidden rounded-lg mb-6">
 					<img
-						src={KidsImage}
+						src={imageURL}
 						alt={title}
 						className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
 					/>
@@ -67,10 +77,10 @@ const CampaignDetailsPage = () => {
 				<div className="mb-6">
 					<div className="flex justify-between mb-2">
 						<span className="text-sm font-medium text-gray-600">
-							${currentDonation} raised
+							${currentAmount || 0} raised
 						</span>
 						<span className="text-sm font-medium text-gray-600">
-							target: ${target || 0}
+							target: ${targetAmount || 0}
 						</span>
 					</div>
 					<div className="w-full bg-gray-200 rounded-full h-4">
@@ -87,13 +97,13 @@ const CampaignDetailsPage = () => {
 				{/* Author Info */}
 				<div className="flex items-center mb-6">
 					<img
-						src={author.photoURL || 'https://i.pravatar.cc/50'}
-						alt={author.name}
+						src={author?.photoURL || 'https://i.pravatar.cc/50'}
+						alt={author?.name}
 						className="w-10 h-10 rounded-full mr-3"
 					/>
 					<div>
-						<p className="text-sm font-medium">{author.name}</p>
-						<p className="text-xs text-gray-500">{author.email}</p>
+						<p className="text-sm font-medium">{author?.name}</p>
+						<p className="text-xs text-gray-500">{author?.email}</p>
 					</div>
 				</div>
 				{/* Donation Section */}

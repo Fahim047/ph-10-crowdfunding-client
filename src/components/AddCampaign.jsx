@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { useAuth } from '../hooks';
 import InputField from './Forms/InputField';
 import SelectField from './Forms/SelectField';
@@ -45,7 +46,7 @@ const AddCampaign = () => {
 		});
 		const data = await response.json();
 		if (response.ok) {
-			console.log('New Campaign created successfully. Data: ', data);
+			toast.success('Campaign added successfully!');
 		}
 	};
 

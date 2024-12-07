@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
+import UpdateCampaignModal from '../components/UpdateCampaignModal';
 import { useAuth } from '../hooks'; // Custom hook to get authenticated user
 
 const MyCampaignsPage = () => {
 	const { user } = useAuth();
 	const [campaigns, setCampaigns] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [selectedCampaign, setSelectedCampaign] = useState(null);
 
 	useEffect(() => {
 		const fetchMyCampaigns = async () => {
@@ -13,7 +16,7 @@ const MyCampaignsPage = () => {
 			setLoading(true);
 			try {
 				const response = await fetch(
-					`http://localhost:8000/api/v1/campaigns/my-campaigns?email=${user.email}`
+					`http://localhost:8000/api/v1/campaigns/user/${user.email}`
 				);
 				const data = await response.json();
 				setCampaigns(data.data);
@@ -27,7 +30,37 @@ const MyCampaignsPage = () => {
 		fetchMyCampaigns();
 	}, [user]);
 
+	const handleOpenModal = (campaign) => {
+		setSelectedCampaign(campaign);
+	};
+
+	const handleCloseModal = () => {
+		setSelectedCampaign(null);
+	};
+
+	const handleDelete = async (campaignId) => {
+		try {
+			const response = await fetch(
+				`http://localhost:8000/api/v1/campaigns/${campaignId}`,
+				{
+					method: 'DELETE',
+				}
+			);
+			if (response.ok) {
+				toast.success('Campaign deleted successfully!');
+				setCampaigns((prevCampaigns) =>
+					prevCampaigns.filter((c) => c._id !== campaignId)
+				);
+			} else {
+				toast.error('Failed to delete campaign. Try again.');
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	if (loading) return <Loader />;
+
 	return (
 		<div className="max-w-7xl mx-auto p-6">
 			<h1 className="text-3xl font-bold mb-6">My Campaigns</h1>
@@ -70,10 +103,16 @@ const MyCampaignsPage = () => {
 								</td>
 								<td className="border border-gray-200 px-4 py-2 text-center">
 									<div className="flex items-center justify-center gap-4">
-										<button className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+										<button
+											onClick={() => handleOpenModal(campaign)}
+											className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+										>
 											Update
 										</button>
-										<button className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+										<button
+											onClick={() => handleDelete(campaign._id)}
+											className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+										>
 											Delete
 										</button>
 									</div>
@@ -83,6 +122,18 @@ const MyCampaignsPage = () => {
 					</tbody>
 				</table>
 			</div>
+
+			{/* Update Campaign Modal */}
+			{selectedCampaign && (
+				<UpdateCampaignModal
+					isOpen={!!selectedCampaign}
+					onClose={handleCloseModal}
+					campaignId={selectedCampaign._id}
+					existingData={selectedCampaign}
+					refreshCampaigns={refreshCampaigns}
+					setCampaigns={setCampaigns}
+				/>
+			)}
 		</div>
 	);
 };

@@ -8,7 +8,6 @@ const Navbar = () => {
 	const { user, handleLogout } = useAuth();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const navigate = useNavigate();
-	console.log(user?.photoURL);
 	const logout = async () => {
 		await handleLogout();
 		navigate('/');
