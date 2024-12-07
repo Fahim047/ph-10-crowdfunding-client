@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { options } from '../data/data';
 import { useAuth } from '../hooks';
 import InputField from './Forms/InputField';
 import SelectField from './Forms/SelectField';
@@ -93,12 +94,7 @@ const UpdateCampaignModal = ({
 						name="type"
 						value={formData.type}
 						onChange={handleInputChange}
-						options={[
-							{ value: 'personal issue', label: 'Personal Issue' },
-							{ value: 'startup', label: 'Startup' },
-							{ value: 'business', label: 'Business' },
-							{ value: 'creative ideas', label: 'Creative Ideas' },
-						]}
+						options={options}
 					/>
 					<TextareaField
 						label="Description"

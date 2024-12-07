@@ -6,6 +6,7 @@ import CampaignDetailsPage from '../pages/CampaignDetailsPage';
 import Homepage from '../pages/Homepage';
 import LoginPage from '../pages/LoginPage';
 import MyCampaignsPage from '../pages/MyCampaignsPage';
+import MyDonationsPage from '../pages/MyDonationsPage';
 import NotFoundPage from '../pages/NotFound';
 import RegisterPage from '../pages/RegisterPage';
 import PrivateRoutes from './PrivateRoutes';
@@ -44,6 +45,14 @@ const router = createBrowserRouter([
 				element: (
 					<PrivateRoutes>
 						<MyCampaignsPage />
+					</PrivateRoutes>
+				),
+			},
+			{
+				path: '/my-donations',
+				element: (
+					<PrivateRoutes>
+						<MyDonationsPage />
 					</PrivateRoutes>
 				),
 			},

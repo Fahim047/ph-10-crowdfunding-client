@@ -56,7 +56,7 @@ const AllCampaignsPage = () => {
 								<td>{new Date(campaign.deadline).toLocaleDateString()}</td>
 								<td className="border border-gray-200 px-4 py-2 text-center">
 									<button
-										onClick={() => navigate(`/campaigns/${campaign.id}`)}
+										onClick={() => navigate(`/campaigns/${campaign._id}`)}
 										className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
 									>
 										See More
