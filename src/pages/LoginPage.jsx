@@ -11,9 +11,8 @@ const LoginPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
-	console.log(location);
 
-	const { handleSignInWithGoogle } = useAuth();
+	const { handleSignInWithGoogle, handleSignInWithEmail } = useAuth();
 
 	const handleEmailLogin = async (e) => {
 		e.preventDefault();
@@ -21,13 +20,11 @@ const LoginPage = () => {
 		setIsLoading(true);
 
 		try {
-			// Here you would typically call your authentication service
-			// For example: await auth.signInWithEmailAndPassword(email, password)
-			console.log('Logging in with:', email, password);
-
-			// Simulate successful login
-			await new Promise((resolve) => setTimeout(resolve, 1000));
-			navigate('/dashboard');
+			await handleSignInWithEmail(email, password);
+			toast.success('Login successful');
+			navigate(location?.state || '/');
+			setEmail('');
+			setPassword('');
 		} catch (err) {
 			setError(
 				'Failed to log in. Please check your credentials and try again.'
