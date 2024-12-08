@@ -1,10 +1,10 @@
 import { CircleX } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 import Loader from '../components/Loader';
 import UpdateCampaignModal from '../components/UpdateCampaignModal';
 import { useAuth } from '../hooks'; // Custom hook to get authenticated user
-import Swal from 'sweetalert2';
 const MyCampaignsPage = () => {
 	const { user } = useAuth();
 	const [campaigns, setCampaigns] = useState([]);
@@ -17,7 +17,9 @@ const MyCampaignsPage = () => {
 			setLoading(true);
 			try {
 				const response = await fetch(
-					`http://localhost:8000/api/v1/campaigns/user/${user.email}`
+					`${import.meta.env.VITE_API_BASE_URL}/api/v1/campaigns/user/${
+						user.email
+					}`
 				);
 				const data = await response.json();
 				setCampaigns(data?.data);
@@ -52,7 +54,7 @@ const MyCampaignsPage = () => {
 			});
 			if (result.isConfirmed) {
 				const response = await fetch(
-					`http://localhost:8000/api/v1/campaigns/${campaignId}`,
+					`${import.meta.env.VITE_API_BASE_URL}/api/v1/campaigns/${campaignId}`,
 					{
 						method: 'DELETE',
 					}

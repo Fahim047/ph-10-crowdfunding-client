@@ -14,7 +14,9 @@ const MyDonationsPage = () => {
 			setLoading(true);
 			try {
 				const response = await fetch(
-					`http://localhost:8000/api/v1/donations/user/${user.email}`
+					`${import.meta.env.VITE_API_BASE_URL}/api/v1/donations/user/${
+						user.email
+					}`
 				);
 				const data = await response.json();
 				setDonations(data.data);

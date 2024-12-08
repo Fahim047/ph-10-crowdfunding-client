@@ -38,13 +38,16 @@ const AddCampaign = () => {
 				photoURL: user?.photoURL,
 			},
 		};
-		const response = await fetch('http://localhost:8000/api/v1/campaigns', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(newCampaign),
-		});
+		const response = await fetch(
+			`${import.meta.env.VITE_API_BASE_URL}/api/v1/campaigns`,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(newCampaign),
+			}
+		);
 		const data = await response.json();
 		if (response.ok) {
 			toast.success('Campaign added successfully!');

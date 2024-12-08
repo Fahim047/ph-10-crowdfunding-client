@@ -22,7 +22,7 @@ const AllCampaignsPage = () => {
 			setLoading(true);
 			try {
 				const response = await fetch(
-					'http://localhost:8000/api/v1/campaigns/all'
+					`${import.meta.env.VITE_API_BASE_URL}/api/v1/campaigns/all`
 				);
 				const data = await response.json();
 				setCampaigns(data.data);

@@ -21,7 +21,7 @@ const CampaignDetailsPage = () => {
 			setLoading(true);
 			try {
 				const response = await fetch(
-					`http://localhost:8000/api/v1/campaigns/${campaignId}`
+					`${import.meta.env.VITE_API_BASE_URL}/api/v1/campaigns/${campaignId}`
 				);
 				const data = await response.json();
 				setCampaign(data.data);
@@ -71,13 +71,16 @@ const CampaignDetailsPage = () => {
 				},
 			};
 
-			const response = await fetch('http://localhost:8000/api/v1/donations', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(donationData),
-			});
+			const response = await fetch(
+				`${import.meta.env.VITE_API_BASE_URL}/api/v1/donations`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(donationData),
+				}
+			);
 
 			if (response.ok) {
 				const result = await response.json();
@@ -109,17 +112,28 @@ const CampaignDetailsPage = () => {
 		100
 	);
 
+	const hasDeadlinePassed = new Date(deadline) < new Date();
+
 	if (loading) return <Loader />;
 	return (
 		<section className="max-w-4xl mx-auto px-4">
 			<div className="p-6 bg-white shadow-md rounded-lg">
 				{/* Campaign Image */}
-				<div className="w-full h-72 overflow-hidden rounded-lg mb-6">
+				<div className="w-full h-72 overflow-hidden rounded-lg mb-6 relative">
 					<img
 						src={imageURL}
 						alt={title}
 						className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
 					/>
+					<div className="absolute top-2 right-2">
+						<span
+							className={`text-sm badge badge-lg ${
+								hasDeadlinePassed ? 'badge-error' : 'badge-success'
+							}`}
+						>
+							{hasDeadlinePassed ? 'Finished' : 'Active'}
+						</span>
+					</div>
 				</div>
 				{/* Campaign Info */}
 				<h1 className="text-3xl font-bold mb-2">{title}</h1>
@@ -162,6 +176,7 @@ const CampaignDetailsPage = () => {
 					</div>
 				</div>
 				{/* Donation Section */}
+
 				<div className="p-6 bg-gray-100 rounded-lg">
 					<div className="max-w-md mx-auto">
 						<InputField
@@ -184,7 +199,10 @@ const CampaignDetailsPage = () => {
 
 						<button
 							onClick={handleDonate}
-							className="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+							className={`w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 ${
+								hasDeadlinePassed ? 'opacity-50 cursor-not-allowed' : ''
+							}`}
+							disabled={hasDeadlinePassed}
 						>
 							Donate
 						</button>

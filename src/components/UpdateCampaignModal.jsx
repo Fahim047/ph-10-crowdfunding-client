@@ -37,7 +37,7 @@ const UpdateCampaignModal = ({
 		e.preventDefault();
 		try {
 			const response = await fetch(
-				`http://localhost:8000/api/v1/campaigns/${campaignId}`,
+				`${import.meta.env.VITE_API_BASE_URL}/api/v1/campaigns/${campaignId}`,
 				{
 					method: 'PUT',
 					headers: { 'Content-Type': 'application/json' },
