@@ -1,4 +1,5 @@
 import { Fade, Slide } from 'react-awesome-reveal';
+import { Typewriter } from 'react-simple-typewriter';
 
 const OurMission = () => {
 	return (
@@ -21,6 +22,17 @@ const OurMission = () => {
 							<h2 className="text-4xl md:text-5xl font-bold text-gray-900">
 								Our Mission
 							</h2>
+							<h3 className="text-2xl text-red-600 font-bold">
+								-
+								<Typewriter
+									words={[
+										' Empowering Communities',
+										' Making a Difference',
+										' Helping People in Need',
+									]}
+									loop={false}
+								/>
+							</h3>
 
 							<p className="text-lg md:text-xl text-gray-600 leading-relaxed">
 								We are committed to empowering communities by facilitating
