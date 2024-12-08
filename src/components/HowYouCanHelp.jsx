@@ -1,4 +1,3 @@
-import React from 'react';
 import { helpOptions } from '../data/data';
 
 const FundraisingOptionCard = ({ icon: Icon, title, description }) => (

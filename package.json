@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.5",
     "firebase": "^11.0.2",
     "lucide-react": "^0.464.0",
     "react": "^18.3.1",
+    "react-awesome-reveal": "^4.2.14",
     "react-dom": "^18.3.1",
     "react-router-dom": "6",
     "react-toastify": "^10.0.6",

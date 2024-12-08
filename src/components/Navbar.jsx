@@ -12,10 +12,9 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../hooks';
-import Loader from './Loader';
 
 const Navbar = () => {
-	const { user, handleLogout, loading } = useAuth();
+	const { user, handleLogout } = useAuth();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const navigate = useNavigate();
 
@@ -57,9 +56,6 @@ const Navbar = () => {
 			{children}
 		</NavLink>
 	);
-
-	if (loading) return <Loader />;
-	console.log(user);
 
 	return (
 		<nav className="bg-white shadow-lg sticky top-0 z-50">

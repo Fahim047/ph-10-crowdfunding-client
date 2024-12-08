@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
 import UpdateCampaignModal from '../components/UpdateCampaignModal';
 import { useAuth } from '../hooks'; // Custom hook to get authenticated user
-
+import Swal from 'sweetalert2';
 const MyCampaignsPage = () => {
 	const { user } = useAuth();
 	const [campaigns, setCampaigns] = useState([]);
@@ -41,19 +41,30 @@ const MyCampaignsPage = () => {
 
 	const handleDelete = async (campaignId) => {
 		try {
-			const response = await fetch(
-				`http://localhost:8000/api/v1/campaigns/${campaignId}`,
-				{
-					method: 'DELETE',
-				}
-			);
-			if (response.ok) {
-				toast.success('Campaign deleted successfully!');
-				setCampaigns((prevCampaigns) =>
-					prevCampaigns.filter((c) => c._id !== campaignId)
+			const result = await Swal.fire({
+				title: 'Are you sure?',
+				text: "You won't be able to revert this!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: 'red',
+				cancelButtonColor: 'gray',
+				confirmButtonText: 'Delete',
+			});
+			if (result.isConfirmed) {
+				const response = await fetch(
+					`http://localhost:8000/api/v1/campaigns/${campaignId}`,
+					{
+						method: 'DELETE',
+					}
 				);
-			} else {
-				toast.error('Failed to delete campaign. Try again.');
+				if (response.ok) {
+					toast.success('Campaign deleted!');
+					setCampaigns((prevCampaigns) =>
+						prevCampaigns.filter((c) => c._id !== campaignId)
+					);
+				} else {
+					toast.error('Failed to delete. Try again.');
+				}
 			}
 		} catch (err) {
 			console.log(err);

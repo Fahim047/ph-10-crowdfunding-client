@@ -81,7 +81,6 @@ const CampaignDetailsPage = () => {
 
 			if (response.ok) {
 				const result = await response.json();
-				console.log(result);
 				toast.success('Donation successful!');
 
 				// Update the campaign's current amount
@@ -148,15 +147,18 @@ const CampaignDetailsPage = () => {
 				</div>
 				<p className="text-gray-700 mb-6">{description}</p>
 				{/* Author Info */}
-				<div className="flex items-center mb-6">
-					<img
-						src={author?.photoURL || 'https://i.pravatar.cc/50'}
-						alt={author?.name}
-						className="w-10 h-10 rounded-full mr-3"
-					/>
-					<div>
-						<p className="text-sm font-medium">{author?.name}</p>
-						<p className="text-xs text-gray-500">{author?.email}</p>
+				<div>
+					<h4 className="mb-2">Author:</h4>
+					<div className="flex items-center mb-6">
+						<img
+							src={author?.photoURL || 'https://i.pravatar.cc/50'}
+							alt={author?.name}
+							className="w-10 h-10 rounded-full mr-3"
+						/>
+						<div>
+							<p className="text-sm font-medium">{author?.name}</p>
+							<p className="text-xs text-gray-500">{author?.email}</p>
+						</div>
 					</div>
 				</div>
 				{/* Donation Section */}
