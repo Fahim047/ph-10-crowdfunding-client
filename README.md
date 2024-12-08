@@ -2,6 +2,10 @@
 
 Welcome to the **CrowdCube: Crowdfunding Platform**, a user-friendly web application designed to help individuals and organizations create, manage, and contribute to crowdfunding campaigns. With seamless donation features and real-time campaign updates, this platform is built to empower meaningful contributions toward various causes.
 
+- Live Link: [CrowdCube](https://ph-a10-crowdfunding-client.vercel.app)
+
+- Requirements: [Project Requirements](https://docs.google.com/document/d/1YQytgBxCeXVy7SxTiulD_f9kSl7x3gBFmpJ4iRTX3V8/edit?tab=t.0)
+
 ---
 
 ## 🚀 Features

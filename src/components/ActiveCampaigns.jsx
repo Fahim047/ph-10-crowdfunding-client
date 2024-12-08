@@ -1,6 +1,6 @@
 import { CircleX } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Slide } from 'react-awesome-reveal';
+import { Zoom } from 'react-awesome-reveal';
 import CampaignCard from './CampaignCard';
 import Loader from './Loader';
 const ActiveCampaigns = () => {
@@ -42,13 +42,14 @@ const ActiveCampaigns = () => {
 			<h2 className="text-4xl font-extrabold text-gray-800 mb-12">
 				Active Campaigns
 			</h2>
-			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-				<Slide cascade damping={0.1} direction="right">
+
+			<Zoom>
+				<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 					{campaigns.map((campaign) => (
 						<CampaignCard key={campaign._id} campaign={campaign} />
 					))}
-				</Slide>
-			</div>
+				</div>
+			</Zoom>
 		</section>
 	);
 };

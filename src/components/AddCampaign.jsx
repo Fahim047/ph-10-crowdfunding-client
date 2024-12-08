@@ -48,9 +48,18 @@ const AddCampaign = () => {
 				body: JSON.stringify(newCampaign),
 			}
 		);
-		const data = await response.json();
 		if (response.ok) {
+			const data = await response.json();
 			toast.success('Campaign added successfully!');
+			setFormData({
+				imageURL: '',
+				title: '',
+				type: 'personal issue',
+				description: '',
+				minDonation: 10,
+				targetAmount: 100,
+				deadline: '',
+			});
 		}
 	};
 
