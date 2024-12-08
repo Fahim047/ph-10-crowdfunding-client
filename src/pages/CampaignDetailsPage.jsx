@@ -105,7 +105,10 @@ const CampaignDetailsPage = () => {
 		}
 	};
 
-	const donationProgress = Math.min((currentAmount / targetAmount) * 100, 100);
+	const donationProgress = Math.min(
+		((currentAmount / targetAmount) * 100).toFixed(0),
+		100
+	);
 
 	if (loading) return <Loader />;
 	return (
@@ -127,10 +130,10 @@ const CampaignDetailsPage = () => {
 				<div className="mb-6">
 					<div className="flex justify-between mb-2">
 						<span className="text-sm font-medium text-gray-600">
-							${currentAmount || 0} raised
+							${currentAmount || 0} Raised
 						</span>
 						<span className="text-sm font-medium text-gray-600">
-							target: ${targetAmount || 0}
+							Target: ${targetAmount || 0}
 						</span>
 					</div>
 					<div className="w-full bg-gray-200 rounded-full h-4">

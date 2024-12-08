@@ -1,16 +1,35 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useAuth } from '../hooks';
+import { validatePassword } from '../utils/validatePassword';
 const RegisterPage = () => {
+	const { createUser, handleLogout, handleUpdateProfile } = useAuth();
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [photoURL, setPhotoURL] = useState('');
 	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
 	const [error, setError] = useState('');
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setError('');
+		const passwordErrors = validatePassword(password, confirmPassword);
+		if (passwordErrors.length > 0) {
+			setError(`${passwordErrors.join(', ')}`);
+			return;
+		}
+		try {
+			await createUser(email, password);
+			await handleUpdateProfile({ displayName: name, photoURL });
+			await handleLogout();
+			toast.success('Registration successful.');
+			navigate('/login');
+		} catch (err) {
+			console.error('Registration error:', err);
+			toast.error('Something went wrong!');
+		}
 	};
 
 	return (
@@ -82,6 +101,21 @@ const RegisterPage = () => {
 								placeholder="Password"
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
+							/>
+						</div>
+						<div>
+							<label htmlFor="confirmPassword" className="sr-only">
+								Confirm Password
+							</label>
+							<input
+								id="confirmPassword"
+								name="confirmPassword"
+								type="password"
+								required
+								className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								placeholder="Rewrite Password"
+								value={confirmPassword}
+								onChange={(e) => setConfirmPassword(e.target.value)}
 							/>
 						</div>
 					</div>

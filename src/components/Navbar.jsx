@@ -12,9 +12,10 @@ import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../hooks';
+import Loader from './Loader';
 
 const Navbar = () => {
-	const { user, handleLogout } = useAuth();
+	const { user, handleLogout, loading } = useAuth();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const navigate = useNavigate();
 
@@ -57,6 +58,9 @@ const Navbar = () => {
 		</NavLink>
 	);
 
+	if (loading) return <Loader />;
+	console.log(user);
+
 	return (
 		<nav className="bg-white shadow-lg sticky top-0 z-50">
 			<div className="max-w-7xl mx-auto px-4 py-4">
@@ -89,7 +93,7 @@ const Navbar = () => {
 										className="h-8 w-8 rounded-full"
 									/>
 									<p className="text-center text-sm font-medium text-gray-700">
-										{user.displayName.split(' ')[0]}
+										{user?.displayName?.split(' ')[0]}
 									</p>
 								</div>
 								<button
@@ -180,17 +184,17 @@ const Navbar = () => {
 							<div className="flex items-center px-5">
 								<div className="flex-shrink-0">
 									<img
-										src={user.photoURL || 'https://i.pravatar.cc/150'}
+										src={user?.photoURL || 'https://i.pravatar.cc/150'}
 										alt="User avatar"
 										className="h-10 w-10 rounded-full"
 									/>
 								</div>
 								<div className="ml-3">
 									<div className="text-base font-medium text-gray-800">
-										{user.displayName}
+										{user?.displayName}
 									</div>
 									<div className="text-sm font-medium text-gray-500">
-										{user.email}
+										{user?.email}
 									</div>
 								</div>
 								<button
