@@ -24,8 +24,10 @@ const ActiveCampaigns = () => {
 		return <Loader />;
 	}
 	return (
-		<section className="max-w-7xl mx-auto px-4">
-			<h2 className="text-4xl font-bold mb-12">Active Campaigns</h2>
+		<section className="max-w-7xl mx-auto px-4 py-20">
+			<h2 className="text-4xl font-extrabold text-gray-800 mb-12">
+				Active Campaigns
+			</h2>
 			<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 				{campaigns.map((campaign) => (
 					<CampaignCard key={campaign._id} campaign={campaign} />
