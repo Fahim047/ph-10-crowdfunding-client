@@ -8,7 +8,9 @@ const ActiveCampaigns = () => {
 		const fetchCampaigns = async () => {
 			setLoading(true);
 			try {
-				const response = await fetch('http://localhost:8000/api/v1/campaigns');
+				const response = await fetch(
+					'http://localhost:8000/api/v1/campaigns/active'
+				);
 				const data = await response.json();
 				setCampaigns(data.data);
 			} catch (error) {

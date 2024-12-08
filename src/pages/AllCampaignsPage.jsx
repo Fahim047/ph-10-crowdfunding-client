@@ -1,3 +1,4 @@
+import { CircleX } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
@@ -20,7 +21,9 @@ const AllCampaignsPage = () => {
 		const fetchCampaigns = async () => {
 			setLoading(true);
 			try {
-				const response = await fetch('http://localhost:8000/api/v1/campaigns');
+				const response = await fetch(
+					'http://localhost:8000/api/v1/campaigns/all'
+				);
 				const data = await response.json();
 				setCampaigns(data.data);
 			} catch (error) {
@@ -34,6 +37,16 @@ const AllCampaignsPage = () => {
 	}, []);
 	if (loading) {
 		return <Loader />;
+	}
+	if (campaigns.length === 0) {
+		return (
+			<div className="max-w-7xl mx-auto p-6">
+				<div className="min-h-[300px] flex flex-col items-center justify-center">
+					<CircleX size={64} />
+					<h1 className="text-3xl font-bold mb-6">No data found!</h1>
+				</div>
+			</div>
+		);
 	}
 	return (
 		<div className="max-w-7xl mx-auto p-6">

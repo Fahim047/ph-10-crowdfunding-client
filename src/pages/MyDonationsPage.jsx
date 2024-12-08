@@ -2,31 +2,6 @@ import { useEffect, useState } from 'react';
 import Loader from '../components/Loader';
 import { useAuth } from '../hooks';
 
-const mockDonations = [
-	{
-		id: 1,
-		campaignName: 'Help Build a Mosque',
-		date: '2024-01-15',
-		amount: 100,
-		message:
-			'Contributed to the construction of a mosque in the local community.',
-	},
-	{
-		id: 2,
-		campaignName: 'Support Madrasa Education',
-		date: '2024-02-10',
-		amount: 50,
-		message: 'Donated for educational resources in a madrasa.',
-	},
-	{
-		id: 3,
-		campaignName: 'Orphanage Aid (Iyatim Khana)',
-		date: '2024-03-05',
-		amount: 75,
-		message: 'Helped provide food and shelter for orphans.',
-	},
-];
-
 const MyDonationsPage = () => {
 	const { user } = useAuth();
 	const [donations, setDonations] = useState([]);
@@ -57,7 +32,7 @@ const MyDonationsPage = () => {
 				My Donations
 			</h1>
 			<div className="flex flex-col gap-6">
-				{donations.map((donation) => (
+				{donations?.map((donation) => (
 					<div
 						key={donation._id}
 						className="flex flex-col sm:flex-row items-center bg-white rounded-xl shadow-lg p-6 transition-transform border-2 border-transparent hover:border-indigo-500"
