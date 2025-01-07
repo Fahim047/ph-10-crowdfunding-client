@@ -1,13 +1,14 @@
 import { LogOut, Menu, Moon, Sun, X } from 'lucide-react';
 import { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom'; // Import from react-router-dom
-import { useAuth, useTheme } from '../hooks'; // Custom hook for user authentication
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useAuth, useTheme } from '../hooks';
 
 const Navbar = () => {
 	const { user, handleLogout } = useAuth();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const { darkMode, setDarkMode } = useTheme();
 	const navigate = useNavigate();
+	console.log(user);
 
 	// Links for desktop navigation
 	const navigationLinks = [
@@ -35,7 +36,7 @@ const Navbar = () => {
 
 	return (
 		<nav className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-[999]">
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div className="max-w-7xl mx-auto px-4">
 				<div className="flex items-center justify-between h-16">
 					{/* Logo */}
 					<div className="flex items-center">
@@ -73,11 +74,12 @@ const Navbar = () => {
 							<div className="relative">
 								<button
 									onClick={() => setIsMenuOpen(!isMenuOpen)}
-									className="flex items-center focus:outline-none"
+									className="flex items-center focus:outline-none border-2 rounded-full border-indigo-600"
 								>
 									<img
-										src={user?.avatar || '/default-avatar.png'}
+										src={user?.photoURL}
 										alt="Avatar"
+										referrerPolicy="no-referrer"
 										className="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700"
 									/>
 								</button>
