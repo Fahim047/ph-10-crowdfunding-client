@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const ContactUsPage = () => {
 	const [formData, setFormData] = useState({
@@ -14,15 +15,16 @@ const ContactUsPage = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// Handle form submission logic (e.g., send to API)
-		alert('Thank you for reaching out! We will get back to you shortly.');
+		toast.success(
+			'Thank you for reaching out! We will get back to you shortly.'
+		);
 		setFormData({ name: '', email: '', message: '' });
 	};
 
 	return (
-		<div className="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
+		<div className="dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen py-12">
 			<div className="max-w-7xl mx-auto p-8">
-				<h1 className="text-4xl font-extrabold text-center text-indigo-600 dark:text-indigo-400 mb-10">
+				<h1 className="text-5xl font-extrabold text-gray-800 dark:text-gray-100 mb-6 text-center">
 					Contact Us
 				</h1>
 				<p className="text-lg text-center max-w-2xl mx-auto mb-8">

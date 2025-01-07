@@ -168,7 +168,9 @@ const Navbar = () => {
 										key={link.name}
 										to={link.to}
 										className={({ isActive }) =>
-											isActive ? `${activeClass} block` : `${baseClass} block`
+											isActive
+												? `${activeClass} block py-2`
+												: `${baseClass} block py-2`
 										}
 									>
 										{link.name}

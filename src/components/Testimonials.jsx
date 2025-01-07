@@ -25,7 +25,7 @@ const testimonials = [
 ];
 const Testimonials = () => {
 	return (
-		<div className="mt-12 text-center">
+		<div className="max-w-7xl mx-auto px-4 mt-12 text-center">
 			<h2 className="text-3xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
 				Success Stories
 			</h2>

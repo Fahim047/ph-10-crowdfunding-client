@@ -3,6 +3,7 @@ import Banner from '../components/Banner';
 import BecomeVolunteer from '../components/BecomeVolunteer';
 import HowYouCanHelp from '../components/HowYouCanHelp';
 import OurMission from '../components/OurMission';
+import Testimonials from '../components/Testimonials';
 const Homepage = () => {
 	return (
 		<>
@@ -11,6 +12,7 @@ const Homepage = () => {
 			<OurMission />
 			<HowYouCanHelp />
 			<BecomeVolunteer />
+			<Testimonials />
 		</>
 	);
 };
