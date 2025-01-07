@@ -86,22 +86,26 @@ const MyCampaignsPage = () => {
 	}
 	return (
 		<div className="max-w-7xl mx-auto p-6">
-			<h1 className="text-3xl font-bold mb-6">My Campaigns</h1>
+			<h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-100">
+				My Campaigns
+			</h1>
 			<div className="overflow-x-auto">
-				<table className="min-w-full table-auto border-collapse border border-gray-200">
+				<table className="min-w-full table-auto border-collapse border border-gray-200 dark:border-gray-700">
 					<thead>
-						<tr className="bg-gray-100">
-							<th className="border border-gray-200 px-4 py-2 text-left">#</th>
-							<th className="border border-gray-200 px-4 py-2 text-left">
+						<tr className="bg-gray-100 dark:bg-gray-800">
+							<th className="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left text-gray-800 dark:text-gray-100">
+								#
+							</th>
+							<th className="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left text-gray-800 dark:text-gray-100">
 								Title
 							</th>
-							<th className="border border-gray-200 px-4 py-2 text-left">
+							<th className="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left text-gray-800 dark:text-gray-100">
 								Type
 							</th>
-							<th className="border border-gray-200 px-4 py-2 text-left">
+							<th className="border border-gray-200 dark:border-gray-700 px-4 py-2 text-left text-gray-800 dark:text-gray-100">
 								Deadline
 							</th>
-							<th className="border border-gray-200 px-4 py-2 text-center">
+							<th className="border border-gray-200 dark:border-gray-700 px-4 py-2 text-center text-gray-800 dark:text-gray-100">
 								Actions
 							</th>
 						</tr>
@@ -110,31 +114,31 @@ const MyCampaignsPage = () => {
 						{campaigns?.map((campaign, index) => (
 							<tr
 								key={campaign._id}
-								className="hover:bg-gray-50 transition-colors"
+								className="transition-colors bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700"
 							>
-								<td className="border border-gray-200 px-4 py-2">
+								<td className="border border-gray-200 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-100">
 									{index + 1}
 								</td>
-								<td className="border border-gray-200 px-4 py-2">
+								<td className="border border-gray-200 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-100">
 									{campaign.title}
 								</td>
-								<td className="border border-gray-200 px-4 py-2">
+								<td className="border border-gray-200 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-100">
 									{campaign.type}
 								</td>
-								<td className="border border-gray-200 px-4 py-2">
+								<td className="border border-gray-200 dark:border-gray-700 px-4 py-2 text-gray-800 dark:text-gray-100">
 									{new Date(campaign.deadline).toLocaleDateString()}
 								</td>
-								<td className="border border-gray-200 px-4 py-2 text-center">
+								<td className="border border-gray-200 dark:border-gray-700 px-4 py-2 text-center">
 									<div className="flex items-center justify-center gap-4">
 										<button
 											onClick={() => handleOpenModal(campaign)}
-											className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+											className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition-colors"
 										>
 											Update
 										</button>
 										<button
 											onClick={() => handleDelete(campaign._id)}
-											className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+											className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
 										>
 											Delete
 										</button>

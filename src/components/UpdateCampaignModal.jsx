@@ -68,8 +68,10 @@ const UpdateCampaignModal = ({
 
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-			<div className="modal-box bg-white rounded-lg shadow-lg p-6">
-				<h1 className="text-2xl font-bold mb-6 text-center">Update Campaign</h1>
+			<div className="modal-box bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+				<h1 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-100">
+					Update Campaign
+				</h1>
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<InputField
 						label="Image URL"
@@ -79,6 +81,7 @@ const UpdateCampaignModal = ({
 						onChange={handleInputChange}
 						placeholder="Enter image URL"
 						required
+						className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
 					/>
 					<InputField
 						label="Campaign Title"
@@ -88,6 +91,7 @@ const UpdateCampaignModal = ({
 						onChange={handleInputChange}
 						placeholder="Enter campaign title"
 						required
+						className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
 					/>
 					<SelectField
 						label="Campaign Type"
@@ -95,6 +99,7 @@ const UpdateCampaignModal = ({
 						value={formData.type}
 						onChange={handleInputChange}
 						options={options}
+						className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
 					/>
 					<TextareaField
 						label="Description"
@@ -103,6 +108,7 @@ const UpdateCampaignModal = ({
 						onChange={handleInputChange}
 						rows={4}
 						placeholder="Write a brief description..."
+						className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
 					/>
 					<InputField
 						label="Minimum Donation Amount ($)"
@@ -112,6 +118,7 @@ const UpdateCampaignModal = ({
 						onChange={handleInputChange}
 						placeholder="Enter minimum donation amount"
 						required
+						className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
 					/>
 					<InputField
 						label="Target Amount ($)"
@@ -121,6 +128,7 @@ const UpdateCampaignModal = ({
 						onChange={handleInputChange}
 						placeholder="Enter target amount"
 						required
+						className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
 					/>
 					<InputField
 						label="Deadline"
@@ -129,6 +137,7 @@ const UpdateCampaignModal = ({
 						value={formData.deadline}
 						onChange={handleInputChange}
 						required
+						className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
 					/>
 					<InputField
 						label="User Email"
@@ -136,6 +145,7 @@ const UpdateCampaignModal = ({
 						name="userEmail"
 						value={user?.email}
 						readOnly
+						className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
 					/>
 					<InputField
 						label="User Name"
@@ -143,18 +153,19 @@ const UpdateCampaignModal = ({
 						name="userName"
 						value={user?.displayName}
 						readOnly
+						className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100"
 					/>
 					<div className="modal-action flex justify-end gap-4">
 						<button
 							type="submit"
-							className="py-2 px-4 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+							className="py-2 px-4 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600"
 						>
 							Update
 						</button>
 						<button
 							type="button"
 							onClick={onClose}
-							className="py-2 px-4 bg-gray-300 text-black font-medium rounded-md hover:bg-gray-400 focus:outline-none"
+							className="py-2 px-4 bg-gray-300 text-black font-medium rounded-md hover:bg-gray-400 focus:outline-none dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
 						>
 							Close
 						</button>

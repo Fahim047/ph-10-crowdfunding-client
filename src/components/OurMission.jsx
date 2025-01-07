@@ -3,7 +3,7 @@ import { Typewriter } from 'react-simple-typewriter';
 
 const OurMission = () => {
 	return (
-		<section className="min-h-[600px] bg-gradient-to-br from-blue-50 via-purple-50 to-white">
+		<section className="min-h-[600px] bg-gradient-to-br from-blue-50 via-purple-50 to-white dark:from-indigo-300 dark:via-purple-100 dark:to-indigo-200">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
 				<div className="grid md:grid-cols-2 gap-8 items-center">
 					<Fade>

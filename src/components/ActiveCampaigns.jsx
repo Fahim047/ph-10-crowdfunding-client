@@ -39,7 +39,7 @@ const ActiveCampaigns = () => {
 	}
 	return (
 		<section className="max-w-7xl mx-auto px-4 py-20">
-			<h2 className="text-4xl font-extrabold text-gray-800 mb-12">
+			<h2 className="text-4xl font-extrabold text-gray-800 dark:text-indigo-400 mb-12">
 				Active Campaigns
 			</h2>
 

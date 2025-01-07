@@ -34,7 +34,7 @@ const Banner = () => {
 	];
 
 	return (
-		<section className="">
+		<section>
 			<div className="max-w-7xl mx-auto px-4">
 				<Swiper
 					modules={[Pagination, Autoplay]}
@@ -45,7 +45,7 @@ const Banner = () => {
 				>
 					{campaigns.map((campaign, index) => (
 						<SwiperSlide key={index}>
-							<div className="relative h-[400px] md:h-[500px]">
+							<div className="relative h-[400px] md:h-[500px] max-h-[80vh]">
 								<img
 									src={campaign.image}
 									alt={campaign.title}

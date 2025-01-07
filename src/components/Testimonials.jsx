@@ -6,21 +6,21 @@ const testimonials = [
 			'We reached our funding goal in just two weeks! The support we received from the community was incredible. Thanks to CrowdCube, our project is now a reality!',
 		name: 'Sarah & Mike',
 		title: 'Founders',
-		projectName: '[Project Name]',
+		projectName: 'StartupX',
 	},
 	{
 		quote:
 			'The tools and resources available helped us create a compelling campaign. We couldn’t have done it without CrowdCube!',
 		name: 'John',
 		title: 'Creator',
-		projectName: '[Project Name]',
+		projectName: 'TechHub',
 	},
 	{
 		quote:
 			'CrowdCube gave us the visibility and credibility we needed to scale our idea. The support was unmatched!',
 		name: 'Lisa',
 		title: 'Founder',
-		projectName: '[Another Project]',
+		projectName: 'AgriTech',
 	},
 ];
 const Testimonials = () => {

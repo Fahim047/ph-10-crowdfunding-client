@@ -88,17 +88,34 @@ const AllCampaignsPage = () => {
 				<div className="flex gap-4">
 					<select
 						onChange={(e) => handleSort(e.target.value)}
-						className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm"
+						className="bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 dark:focus:ring-indigo-400"
 					>
-						<option value="">Sort by</option>
-						<option value="minDonation">Minimum Donation</option>
-						<option value="type">Type</option>
-						<option value="goal">Goal Amount</option>
-						<option value="deadline">Deadline</option>
+						<option value="" className="text-gray-700 dark:text-gray-300">
+							Sort by
+						</option>
+						<option
+							value="minDonation"
+							className="text-gray-700 dark:text-gray-300"
+						>
+							Minimum Donation
+						</option>
+						<option value="type" className="text-gray-700 dark:text-gray-300">
+							Type
+						</option>
+						<option value="goal" className="text-gray-700 dark:text-gray-300">
+							Goal Amount
+						</option>
+						<option
+							value="deadline"
+							className="text-gray-700 dark:text-gray-300"
+						>
+							Deadline
+						</option>
 					</select>
+
 					<button
 						onClick={toggleSortOrder}
-						className="bg-indigo-400 text-white py-2 px-4 rounded hover:bg-indigo-600 transition"
+						className="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-500 transition"
 					>
 						Order: {isAscending ? 'Ascending' : 'Descending'}
 					</button>
