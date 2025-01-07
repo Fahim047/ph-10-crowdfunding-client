@@ -1,22 +1,53 @@
-import { CircleX } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
+
 const AllCampaignsPage = () => {
 	const [campaigns, setCampaigns] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [isAscending, setIsAscending] = useState(true);
+	const [sortCriteria, setSortCriteria] = useState('');
 	const navigate = useNavigate();
 
-	const handleSort = () => {
+	const handleSort = (criteria) => {
+		setSortCriteria(criteria);
+		applySorting(criteria, isAscending);
+	};
+
+	const toggleSortOrder = () => {
+		const newOrder = !isAscending;
+		setIsAscending(newOrder); // Update the sort order
+		applySorting(sortCriteria, newOrder);
+	};
+
+	const applySorting = (criteria, order) => {
+		if (!criteria) return; // No sorting applied if criteria is not set
 		const sortedCampaigns = campaigns.toSorted((a, b) => {
-			return isAscending
-				? a.minDonation - b.minDonation
-				: b.minDonation - a.minDonation;
+			if (criteria === 'minDonation') {
+				return order
+					? a.minDonation - b.minDonation
+					: b.minDonation - a.minDonation;
+			}
+			if (criteria === 'type') {
+				return order
+					? a.type.localeCompare(b.type)
+					: b.type.localeCompare(a.type);
+			}
+			if (criteria === 'goal') {
+				return order
+					? a.targetAmount - b.targetAmount
+					: b.targetAmount - a.targetAmount;
+			}
+			if (criteria === 'deadline') {
+				return order
+					? new Date(a.deadline) - new Date(b.deadline)
+					: new Date(b.deadline) - new Date(a.deadline);
+			}
+			return 0;
 		});
 		setCampaigns(sortedCampaigns);
-		setIsAscending(!isAscending);
 	};
+
 	useEffect(() => {
 		const fetchCampaigns = async () => {
 			setLoading(true);
@@ -35,70 +66,117 @@ const AllCampaignsPage = () => {
 
 		fetchCampaigns();
 	}, []);
+
 	if (loading) {
 		return <Loader />;
 	}
+
 	if (campaigns.length === 0) {
 		return (
 			<div className="max-w-7xl mx-auto p-6">
 				<div className="min-h-[300px] flex flex-col items-center justify-center">
-					<CircleX size={64} />
 					<h1 className="text-3xl font-bold mb-6">No data found!</h1>
 				</div>
 			</div>
 		);
 	}
+
 	return (
 		<div className="max-w-7xl mx-auto p-6">
 			<h1 className="text-3xl font-bold mb-6">All Campaigns</h1>
 			<div className="flex justify-between items-center mb-6">
-				<button
-					onClick={handleSort}
-					className="bg-indigo-400 text-white py-2 px-4 rounded hover:bg-indigo-600 transition"
-				>
-					Sort by Minimum Donation ({isAscending ? 'Ascending' : 'Descending'})
-				</button>
+				<div className="flex gap-4">
+					<select
+						onChange={(e) => handleSort(e.target.value)}
+						className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm"
+					>
+						<option value="">Sort by</option>
+						<option value="minDonation">Minimum Donation</option>
+						<option value="type">Type</option>
+						<option value="goal">Goal Amount</option>
+						<option value="deadline">Deadline</option>
+					</select>
+					<button
+						onClick={toggleSortOrder}
+						className="bg-indigo-400 text-white py-2 px-4 rounded hover:bg-indigo-600 transition"
+					>
+						Order: {isAscending ? 'Ascending' : 'Descending'}
+					</button>
+				</div>
 			</div>
-			{/* Table of Campaigns */}
-			<div className="overflow-x-auto">
-				<table className="min-w-full table-fixed border-collapse border border-gray-200">
-					<thead>
-						<tr className="bg-gray-100 *:border *:border-gray-200 *:px-4 *:py-2 *:text-left">
-							<th>#</th>
-							<th>Title</th>
-							<th>Type</th>
-							<th>Min Donation</th>
-							<th>Raised / Target</th>
-							<th>Deadline</th>
-							<th className="!text-center">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						{campaigns.map((campaign, index) => (
-							<tr
-								key={campaign.id}
-								className="hover:bg-gray-50 transition-colors *:border *:border-gray-200 *:px-4 *:py-2"
-							>
-								<td>{index + 1}</td>
-								<td>{campaign.title}</td>
-								<td>{campaign.type}</td>
-								<td>${campaign.minDonation}</td>
-								<td>
-									${campaign.currentAmount} / ${campaign.targetAmount}
-								</td>
-								<td>{new Date(campaign.deadline).toLocaleDateString()}</td>
-								<td className="border border-gray-200 px-4 py-2 text-center">
-									<button
-										onClick={() => navigate(`/campaigns/${campaign._id}`)}
-										className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-									>
-										See More
-									</button>
-								</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
+
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+				{campaigns.map((campaign) => {
+					const isActive = new Date(campaign.deadline) > new Date();
+					return (
+						<div
+							key={campaign.id}
+							className="border border-gray-200 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition relative bg-white flex flex-col"
+						>
+							<img
+								src={campaign.imageURL}
+								alt={campaign.title}
+								className="w-full h-40 object-cover"
+							/>
+							<div className="p-4 flex flex-col flex-grow">
+								<div
+									className={`absolute top-2 right-2 px-2 py-1 text-xs font-semibold rounded ${
+										isActive
+											? 'bg-green-100 text-green-700'
+											: 'bg-red-100 text-red-700'
+									}`}
+								>
+									{isActive ? 'Active' : 'Finished'}
+								</div>
+								<h2 className="text-xl font-semibold mb-2 dark:text-indigo-600">
+									{campaign.title}
+								</h2>
+								<div className="text-gray-500 mb-4">
+									<div className="flex items-center justify-between">
+										<span className="text-sm font-medium">Goal:</span>
+										<span className="font-semibold">
+											${campaign.targetAmount}
+										</span>
+									</div>
+									<div className="relative w-full bg-gray-200 rounded-full h-4 mt-2">
+										<div
+											className="bg-indigo-600 h-4 rounded-full"
+											style={{
+												width: `${
+													(campaign.currentAmount / campaign.targetAmount) * 100
+												}%`,
+											}}
+										></div>
+									</div>
+									<div className="flex items-center justify-between text-sm mt-2">
+										<span>Raised:</span>
+										<span className="font-semibold">
+											${campaign.currentAmount}
+										</span>
+									</div>
+								</div>
+								<div className="text-gray-500 mb-4 flex items-center gap-2">
+									<span className="inline-block px-2 py-1 text-xs font-semibold bg-gray-100 rounded">
+										{campaign.type}
+									</span>
+									<span className="inline-block px-2 py-1 text-xs font-semibold bg-gray-100 rounded">
+										Min ${campaign.minDonation}
+									</span>
+								</div>
+								<p className="text-sm text-gray-500 mb-4">
+									<strong>Deadline:</strong>{' '}
+									{new Date(campaign.deadline).toLocaleDateString()}
+								</p>
+								<button
+									onClick={() => navigate(`/campaigns/${campaign._id}`)}
+									className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition mt-auto"
+								>
+									See More
+								</button>
+							</div>
+						</div>
+					);
+				})}
 			</div>
 		</div>
 	);

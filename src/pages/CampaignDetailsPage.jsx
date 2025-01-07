@@ -26,7 +26,7 @@ const CampaignDetailsPage = () => {
 				const data = await response.json();
 				setCampaign(data.data);
 			} catch (err) {
-				console.log(err);
+				console.error(err);
 				toast.error('Failed to fetch campaign');
 			} finally {
 				setLoading(false);
@@ -42,27 +42,20 @@ const CampaignDetailsPage = () => {
 			[name]: value,
 		});
 	};
-	const {
-		imageURL,
-		title,
-		type,
-		description,
-		minDonation,
-		deadline,
-		currentAmount,
-		targetAmount,
-		author,
-	} = campaign;
+
 	const handleDonate = async () => {
 		if (!user) return toast.error('You must be logged in to donate.');
-		if (!formData.amount || formData.amount < minDonation) {
-			toast.error(`Please enter an amount of at least $${minDonation}.`);
+		if (!formData.amount || formData.amount < campaign.minDonation) {
+			toast.error(
+				`Please enter an amount of at least $${campaign.minDonation}.`
+			);
 			return;
 		}
+
 		try {
 			const donationData = {
 				campaignId,
-				amount: parseInt(formData.amount),
+				amount: parseFloat(formData.amount),
 				message: formData.message,
 				donor: {
 					name: user?.displayName,
@@ -86,7 +79,6 @@ const CampaignDetailsPage = () => {
 				const result = await response.json();
 				toast.success('Donation successful!');
 
-				// Update the campaign's current amount
 				setCampaign((prevCampaign) => ({
 					...prevCampaign,
 					currentAmount:
@@ -107,6 +99,20 @@ const CampaignDetailsPage = () => {
 		}
 	};
 
+	if (loading) return <Loader />;
+
+	const {
+		imageURL,
+		title,
+		type,
+		description,
+		minDonation,
+		deadline,
+		currentAmount,
+		targetAmount,
+		author,
+	} = campaign;
+
 	const donationProgress = Math.min(
 		((currentAmount / targetAmount) * 100).toFixed(0),
 		100
@@ -114,44 +120,41 @@ const CampaignDetailsPage = () => {
 
 	const hasDeadlinePassed = new Date(deadline) < new Date();
 
-	if (loading) return <Loader />;
 	return (
-		<section className="max-w-4xl mx-auto px-4">
-			<div className="p-6 bg-white shadow-md rounded-lg">
-				{/* Campaign Image */}
-				<div className="w-full h-72 overflow-hidden rounded-lg mb-6 relative">
+		<section className="max-w-5xl mx-auto px-6 py-8">
+			<div className="p-6 bg-white shadow-lg rounded-lg">
+				<div className="relative w-full h-80 overflow-hidden rounded-lg mb-6">
 					<img
 						src={imageURL}
 						alt={title}
 						className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
 					/>
-					<div className="absolute top-2 right-2">
-						<span
-							className={`text-sm badge badge-lg ${
-								hasDeadlinePassed ? 'badge-error' : 'badge-success'
-							}`}
-						>
-							{hasDeadlinePassed ? 'Finished' : 'Active'}
-						</span>
-					</div>
+					<span
+						className={`absolute top-4 right-4 px-3 py-1 text-sm font-medium rounded-lg text-white ${
+							hasDeadlinePassed ? 'bg-red-500' : 'bg-green-500'
+						}`}
+					>
+						{hasDeadlinePassed ? 'Finished' : 'Active'}
+					</span>
 				</div>
-				{/* Campaign Info */}
-				<h1 className="text-3xl font-bold mb-2">{title}</h1>
-				<p className="badge text-sm text-gray-500 uppercase tracking-wider mb-4">
+
+				<h1 className="text-4xl font-bold mb-4 text-indigo-700">{title}</h1>
+				<p className="inline-block px-3 py-1 text-sm font-medium bg-indigo-100 text-indigo-600 rounded-lg mb-6">
 					{type}
 				</p>
-				<div className="mb-6">
-					<div className="flex justify-between mb-2">
-						<span className="text-sm font-medium text-gray-600">
+
+				<div className="mb-8">
+					<div className="flex justify-between mb-3">
+						<span className="text-gray-600 text-sm">
 							${currentAmount || 0} Raised
 						</span>
-						<span className="text-sm font-medium text-gray-600">
+						<span className="text-gray-600 text-sm">
 							Target: ${targetAmount || 0}
 						</span>
 					</div>
 					<div className="w-full bg-gray-200 rounded-full h-4">
 						<div
-							className="bg-green-500 h-4 rounded-full"
+							className="bg-indigo-500 h-4 rounded-full"
 							style={{ width: `${donationProgress}%` }}
 						></div>
 					</div>
@@ -159,28 +162,30 @@ const CampaignDetailsPage = () => {
 						Deadline: {new Date(deadline).toLocaleDateString()}
 					</p>
 				</div>
-				<p className="text-gray-700 mb-6">{description}</p>
-				{/* Author Info */}
-				<div>
-					<h4 className="mb-2">Author:</h4>
-					<div className="flex items-center mb-6">
-						<img
-							src={author?.photoURL || 'https://i.pravatar.cc/50'}
-							alt={author?.name}
-							className="w-10 h-10 rounded-full mr-3"
-						/>
-						<div>
-							<p className="text-sm font-medium">{author?.name}</p>
-							<p className="text-xs text-gray-500">{author?.email}</p>
-						</div>
+
+				<p className="text-lg text-gray-700 leading-relaxed mb-8">
+					{description}
+				</p>
+
+				<div className="flex items-center mb-8">
+					<img
+						src={author?.photoURL || 'https://i.pravatar.cc/50'}
+						alt={author?.name}
+						className="w-12 h-12 rounded-full mr-4"
+					/>
+					<div>
+						<p className="text-sm font-medium">{author?.name}</p>
+						<p className="text-xs text-gray-500">{author?.email}</p>
 					</div>
 				</div>
-				{/* Donation Section */}
 
-				<div className="p-6 bg-gray-100 rounded-lg">
-					<div className="max-w-md mx-auto">
+				<div className="p-6 bg-gray-50 rounded-lg">
+					<h3 className="text-xl font-semibold mb-4 text-gray-700">
+						Make a Donation
+					</h3>
+					<div className="space-y-4">
 						<InputField
-							label={`Donation Amount(Minimum $${minDonation})`}
+							label={`Donation Amount (Minimum $${minDonation})`}
 							type="number"
 							name="amount"
 							value={formData.amount}
@@ -189,18 +194,19 @@ const CampaignDetailsPage = () => {
 							required
 						/>
 						<TextareaField
-							label="Message(optional)"
+							label="Message (Optional)"
 							name="message"
 							value={formData.message}
 							onChange={handleInputChange}
 							rows={4}
-							placeholder="Say something..."
+							placeholder="Write a message"
 						/>
-
 						<button
 							onClick={handleDonate}
-							className={`w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 ${
-								hasDeadlinePassed ? 'opacity-50 cursor-not-allowed' : ''
+							className={`w-full px-4 py-2 text-white font-medium rounded-md transition-colors ${
+								hasDeadlinePassed
+									? 'bg-gray-400 cursor-not-allowed'
+									: 'bg-indigo-600 hover:bg-indigo-700'
 							}`}
 							disabled={hasDeadlinePassed}
 						>

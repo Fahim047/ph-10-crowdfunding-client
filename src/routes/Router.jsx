@@ -1,8 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
 import AddCampaign from '../components/AddCampaign';
 import MainLayout from '../layouts/MainLayout';
+import AboutPage from '../pages/About';
 import AllCampaignsPage from '../pages/AllCampaignsPage';
 import CampaignDetailsPage from '../pages/CampaignDetailsPage';
+import ContactUsPage from '../pages/ContactUs';
 import Homepage from '../pages/Homepage';
 import LoginPage from '../pages/LoginPage';
 import MyCampaignsPage from '../pages/MyCampaignsPage';
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
 			{
 				path: '/register',
 				element: <RegisterPage />,
+			},
+			{
+				path: '/contact',
+				element: <ContactUsPage />,
+			},
+			{
+				path: '/about',
+				element: <AboutPage />,
 			},
 		],
 	},
